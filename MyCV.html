@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Personal Profile – Zhi Siyuan</title>
+  <style>
+    html { scroll-behavior: smooth; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: "Helvetica Neue", Arial, sans-serif; color: #333; line-height: 1.6; background: #fff; }
+    a { text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    .section-title {
+      font-size: 1.8rem; color: #4e8cff; text-align: center; margin: 60px 0 40px;
+      position: relative; display: inline-block;
+    }
+    .section-title::after {
+      content: ""; width: 60px; height: 3px; background: #4e8cff;
+      position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
+    }
+    .card { background: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .card-container,
+    .project-container,
+    .contact-container  {
+      display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;
+      padding: 0 80px 60px;
+    }
+    .navbar {
+      position: fixed; top: 0; left: 0; width: 100%;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 80px; background: #fff; z-index: 100;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .navbar-logo { font-size: 1.2rem; color: #4e8cff; }
+    .navbar-menu { display: flex; list-style: none; }
+    .navbar-menu li { margin-left: 30px; }
+    .navbar-menu a { color: #333; font-size: 1rem; transition: color .3s; }
+    .navbar-menu a:hover { color: #4e8cff; }
+
+    .hero {
+      margin-top: 80px; height: 600px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      color: #fff; text-align: center; position: relative;
+    }
+    .hero-avatar {
+      width: 150px; height: 150px; border-radius: 50%; border: 5px solid #fff;
+      object-fit: cover; margin-bottom: 20px;
+    }
+    .hero-title { font-size: 2.5rem; font-weight: bold; }
+    .highlight { color: #2ee7b6; }
+    .hero-subtitle { font-size: 1.1rem; margin: 10px 0 20px; }
+    .hero-socials a { margin: 0 10px; font-size: 1.3rem; color: #fff; }
+    .scroll-down {
+      position: absolute; bottom: 20px; font-size: 1.5rem;
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%,20%,50%,80%,100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+
+    .education { background: #f7f9ff; }
+    .edu-card { max-width: 1000px; margin: 0 auto 80px; border-radius: 12px; overflow: hidden; }
+    .edu-header {
+      padding: 30px 40px; background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #fff; display: flex; justify-content: space-between; align-items: center;
+    }
+    .edu-body { display: flex; gap: 30px; padding: 40px; background: #fff; flex-wrap: wrap; }
+    .card-badge {
+      display: inline-block; margin-top: 15px; padding: 4px 10px; font-size: 0.85rem;
+      background: #e5f3ff; color: #4e8cff; border-radius: 4px;
+    }
+
+    .skills .skill-list { list-style: none; }
+    .skills .skill-list li {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 10px; padding: 6px 10px; background: #f5f7ff; border-radius: 6px;
+    }
+    .skills .skill-list li span:last-child {
+      background: #4e8cff; color: #fff; padding: 2px 8px; border-radius: 12px;
+      font-size: 0.85rem;
+    }
+
+    .projects { background: #f7f9ff; }
+    .project-card {
+      background: #fff; border-radius: 12px; overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05); width: 300px; display: flex; flex-direction: column;
+    }
+    .project-card img { width: 100%; height: 180px; object-fit: cover; }
+    .project-content { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+    .project-content h3 { font-size: 1.2rem; margin-bottom: 8px; }
+    .project-time { color: #4e8cff; font-size: 0.9rem; margin-bottom: 12px; }
+    .project-content p { flex: 1; color: #666; font-size: 0.95rem; margin-bottom: 12px; }
+    .project-tags span {
+      display: inline-block; margin-right: 8px; padding: 2px 6px;
+      border: 1px solid #e5e5e5; border-radius: 4px; font-size: 0.75rem; color: #666;
+    }
+    .project-content a { margin-top: 12px; color: #4e8cff; font-size: 0.9rem; }
+
+    .awards .award-sub { color: #4e8cff; font-weight: bold; margin: 8px 0; }
+    .awards .award-time { color: #999; font-size: 0.85rem; margin-bottom: 10px; }
+
+    .contact { background: #f7f9ff; }
+    .contact-item {
+      background: #fff; padding: 15px 20px; border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      display: flex; align-items: center; font-size: 1rem;
+    }
+    .contact-item i { font-size: 1.2rem; color: #4e8cff; margin-right: 10px; }
+    .contact-form {
+      flex: 1; background: #fff; padding: 30px; border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05); min-width: 300px;
+    }
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%; padding: 12px; margin-bottom: 15px;
+      border: 1px solid #e5e5e5; border-radius: 6px; font-size: 1rem;
+    }
+    .contact-form button {
+      width: 100%; padding: 12px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border: none; border-radius: 6px; color: #fff; font-size: 1rem;
+      cursor: pointer;
+    }
+    #btnPrint {
+      padding: 50px 44px; min-width: 200px; height: 100px;
+      margin: 60px auto; display: block; font-size: 1rem;
+      background: #4e8cff; color: #fff; border: none; border-radius: 12px;
+      cursor: pointer; transition: opacity .3s;
+    }
+    #btnPrint:hover { opacity: .9; }
+    @media (max-width: 768px) {
+      .navbar { padding: 15px 30px; flex-direction: column; }
+      .navbar-menu { flex-direction: column; align-items: center; }
+      .navbar-menu li { margin: 10px 0; }
+      .hero { height: auto; padding: 120px 20px 80px; }
+      .card-container,
+      .project-container,
+      .contact-container { padding: 0 20px 60px; }
+    }
+    @media (max-width: 480px) {
+      .hero-title { font-size: 2rem; }
+      .section-title { font-size: 1.5rem; }
+      #btnPrint { padding: 40px 20px; height: auto; }
+    }
+    
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar" aria-label="Primary Navigation">
+      <div class="navbar-logo" title="Back to top"><i class="icon-user"></i> Personal Profile</div>
+      <ul class="navbar-menu">
+        <li><a href="#hero"   title="Go to Home">Home</a></li>
+        <li><a href="#about"  title="Learn about me">About Me</a></li>
+        <li><a href="#education" title="My academic background">Education</a></li>
+        <li><a href="#skills" title="My skill set">Skills</a></li>
+        <li><a href="#projects" title="Project portfolio">Projects</a></li>
+        <li><a href="#contact" title="How to reach me">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section id="hero" class="hero">
+      <img class="hero-avatar" src="ZhiSiyuan.jpg" alt="Zhi Siyuan Avatar"
+           title="Nice to meet you!" />
+      <h1 class="hero-title">Hello, I’m <span class="highlight">Zhi Siyuan</span></h1>
+      <p class="hero-subtitle">
+        Major: Information Technology / Student ID: 24006912 / Course: Web Application and Integrative Programming – May 2025
+      </p>
+      <div class="hero-socials">
+        <a href="#" title="GitHub"><i class="icon-github"></i></a>
+        <a href="#" title="LinkedIn"><i class="icon-linkedin"></i></a>
+        <a href="#" title="WeChat"><i class="icon-wechat"></i></a>
+        <a href="#" title="Weibo"><i class="icon-weibo"></i></a>
+      </div>
+      <div class="scroll-down" title="Scroll down"><i class="icon-arrow-down"></i></div>
+    </section>
+    <section id="about" class="about">
+      <h2 class="section-title">About Me</h2>
+      <div class="card-container">
+        <div class="card" title="Basic information">
+          <div class="card-icon"><i class="icon-user-graduate"></i></div>
+          <h3 class="card-title">Basic Info</h3>
+          <ul class="card-list">
+            <li>Age: 20</li>
+            <li>Major: Information Technology</li>
+            <li>School: Universiti Teknologi PETRONAS</li>
+            <li>Location: Seri Iskandar, Malaysia</li>
+          </ul>
+        </div>
+        <div class="card" title="Things I love to do">
+          <div class="card-icon"><i class="icon-heart"></i></div>
+          <h3 class="card-title">Hobbies</h3>
+          <ul class="card-list">
+            <li><i class="icon-code"></i> Coding</li>
+            <li><i class="icon-camera"></i> Photography</li>
+            <li><i class="icon-basketball-ball"></i> Basketball</li>
+            <li><i class="icon-book"></i> Reading</li>
+            <li><i class="icon-music"></i> Music</li>
+            <li><i class="icon-plane"></i> Traveling</li>
+          </ul>
+        </div>
+        <!-- Characteristics -->
+        <div class="card" title="Personal traits">
+          <div class="card-icon"><i class="icon-lightbulb"></i></div>
+          <h3 class="card-title">Characteristics</h3>
+          <ul class="card-list">
+            <li>Passionate about learning and curious about new knowledge</li>
+            <li>Good communicator with strong teamwork skills</li>
+            <li>Clear logical thinking and strong problem-solving ability</li>
+            <li>Detail-oriented and pursuit of excellence</li>
+            <li>Adaptable and able to integrate quickly into new environments</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section id="education" class="education">
+      <h2 class="section-title">Education</h2>
+      <div class="edu-card" title="University records">
+        <div class="edu-header">
+          <h3 class="edu-school">Universiti Teknologi PETRONAS</h3>
+          <span class="edu-time"><i class="icon-calendar"></i> 2024 – 2025</span>
+        </div>
+        <div class="edu-body">
+          <div class="card">
+            <div class="card-icon"><i class="icon-graduation-cap"></i></div>
+            <h4 class="card-title">Academic Performance</h4>
+            <p>GPA: 3.55/4.0<br/>Rank: Top 10%</p>
+            <span class="card-badge">Dean’s List</span>
+          </div>
+          <div class="card">
+            <div class="card-icon"><i class="icon-book-open"></i></div>
+            <h4 class="card-title">Core Courses</h4>
+            <ul class="card-list">
+              <li>Data Structures & Algorithms</li>
+              <li>Operating Systems</li>
+              <li>Computer Networks</li>
+              <li>Database Systems</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-icon"><i class="icon-award"></i></div>
+            <h4 class="card-title">Honors & Awards</h4>
+            <ul class="card-list">
+              <li>January Intake Dean’s List</li>
+            </ul>
+            <span class="card-badge">Dean’s List</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="skills" class="skills">
+      <h2 class="section-title">Skills</h2>
+      <div class="card-container">
+        <div class="card" title="Coding languages">
+          <div class="card-icon"><i class="icon-code"></i></div>
+          <h3 class="card-title">Programming Languages</h3>
+          <ul class="skill-list">
+            <li><span>Python</span><span>90%</span></li>
+            <li><span>Java</span><span>85%</span></li>
+            <li><span>JavaScript</span><span>80%</span></li>
+            <li><span>C++</span><span>75%</span></li>
+          </ul>
+        </div>
+        <div class="card" title="Development toolchain">
+          <div class="card-icon"><i class="icon-tools"></i></div>
+          <h3 class="card-title">Development Tools</h3>
+          <ul class="skill-list">
+            <li><span>VS Code</span><span>90%</span></li>
+            <li><span>Git</span><span>85%</span></li>
+            <li><span>Docker</span><span>80%</span></li>
+            <li><span>Linux</span><span>75%</span></li>
+          </ul>
+        </div>
+        <div class="card" title="Human languages">
+          <div class="card-icon"><i class="icon-language"></i></div>
+          <h3 class="card-title">Languages</h3>
+          <ul class="skill-list">
+            <li><span>Chinese</span><span>95%</span></li>
+            <li><span>English</span><span>85%</span></li>
+            <li><span>Japanese</span><span>70%</span></li>
+          </ul>
+        </div>
+        <div class="card" title="Creative skills">
+          <div class="card-icon"><i class="icon-star"></i></div>
+          <h3 class="card-title">Other Skills</h3>
+          <ul class="skill-list">
+            <li><span>Photography</span><span>90%</span></li>
+            <li><span>Illustration</span><span>85%</span></li>
+            <li><span>Video Editing</span><span>80%</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section id="projects" class="projects">
+      <h2 class="section-title">Projects</h2>
+      <div class="project-container">
+        <div class="project-card" title="Machine-learning project">
+          <img src="zhineng.jpg" alt="Intelligent Recommendation System" />
+          <div class="project-content">
+            <h3>Intelligent Recommendation System</h3>
+            <span class="project-time">2024.09 – 2025.01</span>
+            <p>A personalized recommendation system based on machine learning, implemented with Python and TensorFlow, achieving 85% accuracy.</p>
+            <div class="project-tags">
+              <span>Python</span><span>TensorFlow</span><span>Machine Learning</span>
+            </div>
+            <a href="https://www.utp.edu.my/Pages/UTP-Gateway.aspx" title="See details">Learn More →</a>
+          </div>
+        </div>
+
+        <div class="project-card" title="E-commerce platform">
+          <img src="shop.jpg" alt="Campus Second-Hand Marketplace" />
+          <div class="project-content">
+            <h3>Campus Second-Hand Marketplace</h3>
+            <span class="project-time">2024.09 – 2025.01</span>
+            <p>Built with Vue.js and Node.js, supports listing, searching, and transactions of second-hand goods.</p>
+            <div class="project-tags">
+              <span>Vue.js</span><span>Node.js</span><span>MongoDB</span>
+            </div>
+            <a href="https://www.lazada.cn/" title="See details">Learn More →</a>
+          </div>
+        </div>
+        <div class="project-card" title="IoT home automation">
+          <img src="control.jpg" alt="Smart Home Control System" />
+          <div class="project-content">
+            <h3>Smart Home Control System</h3>
+            <span class="project-time">2024.09 – 2025.03</span>
+            <p>Developed with Arduino and Android, supports remote control and automated scenarios.</p>
+            <div class="project-tags">
+              <span>Arduino</span><span>Android</span><span>IoT</span>
+            </div>
+            <a href="https://home.mi.com/" title="See details">Learn More →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="awards">
+      <h2 class="section-title">Achievements</h2>
+      <div class="card-container">
+        <div class="card" title="IELTS certification">
+          <div class="card-icon"><i class="icon-trophy"></i></div>
+          <h3 class="card-title">IELTS</h3>
+          <p class="award-sub">Overall Band: 6.0</p>
+          <p class="award-time">2025</p>
+          <p>Writing: 6.5 – Capable of academic writing</p>
+        </div>
+        <div class="card" title="Academic scholarship">
+          <div class="card-icon"><i class="icon-medal"></i></div>
+          <h3 class="card-title">Dean’s List Scholarship</h3>
+          <p class="award-sub">Dean’s List</p>
+          <p class="award-time">2024 – 2025</p>
+          <p>Multiple A grades in coursework</p>
+        </div>
+        <div class="card" title="University offers">
+          <div class="card-icon"><i class="icon-user-shield"></i></div>
+          <h3 class="card-title">University Offers</h3>
+          <p class="award-sub">Offers Received</p>
+          <p class="award-time">2025</p>
+          <p>UKM, USM, UTP, Monash</p>
+        </div>
+        <div class="card" title="Computer certificate">
+          <div class="card-icon"><i class="icon-star-circle"></i></div>
+          <h3 class="card-title">National Computer Level Certificate</h3>
+          <p class="award-sub">Certified</p>
+          <p class="award-time">2025</p>
+          <p>Proficient in WPS and other office software</p>
+        </div>
+      </div>
+    </section>
+    <section id="contact" class="contact">
+      <h2 class="section-title">Contact</h2>
+      <div class="contact-container">
+        <div class="contact-list">
+          <div class="contact-item"><i class="icon-envelope"></i> siyuan_24006912@utp.edu.my</div>
+          <div class="contact-item"><i class="icon-github"></i> GitHub: zhisiyuan9</div>
+          <div class="contact-item"><i class="icon-linkedin"></i> TikTok: @galen4553</div>
+          <div class="contact-item"><i class="icon-wechat"></i> WeChat: qtforeverar</div>
+          <div class="contact-item"><i class="icon-phone"></i> +60 147079366</div>
+        </div>
+        <form id="contactForm" class="contact-form" novalidate title="Leave a message">
+          <h3>Leave a Message</h3>
+          <input type="text" name="name" placeholder="Your Name" required aria-label="Your Name" />
+          <input type="email" name="email" placeholder="Your Email" required aria-label="Your Email" />
+          <textarea name="message" rows="5" placeholder="Your Message" required aria-label="Your Message"></textarea>
+          <button type="submit">Send</button>
+        </form>
+      </div>
+    </section>
+  </main>
+  <footer style="background:#fff;text-align:center;padding:20px 0;font-size:0.9rem;color:#777;">
+    © 2025 Zhi Siyuan. All rights reserved.
+  </footer>
+    <button id="btnPrint" title="Print or save this résumé as PDF">Print this resume in PDF format</button>
+  <script>
+    alert("Welcome to view my resume!");
+    document.getElementById('btnPrint').addEventListener('click', () => window.print());
+    document.getElementById('contactForm').addEventListener('submit', function (e) {
+      const name    = this.name.value.trim();
+      const email   = this.email.value.trim();
+      const message = this.message.value.trim();
+      const emailRGX = /^[\\w.-]+@[\\w.-]+\\.\\w+$/;
+      if (!name || !email || !message || !emailRGX.test(email)) {
+        alert("❗ Please fill in all fields with a valid email address.");
+        e.preventDefault();
+      } else {
+        alert("Thank you! Your message has been sent.");
+      }
+    });
+  </script>
+</body>
+</html>
